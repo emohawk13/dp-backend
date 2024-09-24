@@ -1,45 +1,95 @@
-Assignment - Flask API CRUD
-Create an application that uses the Flask API to CRUD to a list of dictionaries named product_records, provided below:
+Assignment - PSQL CRUD
+Completion requirements
+Due: Tuesday, September 24, 2024, 1:00 PM
+For this assignment, you will create CRUD SQL statements for the Products, and Categories tables and their relationships. Save these relationships in a file. Make sure all queries do the intended action by testing them in PSQL.
 
-product_records = [
-{
-"product_id": "1",
-"product_name": "Hasbro Gaming Clue Game",
-"description": "One murder... 6 suspects...",
-"price": 9.95,
-"active" : True
-},
-{
-"product_id": "2",
-"product_name": "Monopoly Board Game The Classic Edition, 2-8 players",
-"description" : "Relive the Monopoly experiences...",
-"price": 35.50
-"active": False
-}
-]
+Products
+PK
+product_id
+UUID4
+FK
+company_id
+UUID4
+U, NN
+company_name
+VARCHAR
+price
+INTEGER
+description
+VARCHAR
+D=t
+active
+BOOLEAN
 
-Files and Folder Structure
-As a minimum, your application should include an app.py file that holds the entire application. Additionally, feel free to organize your application further with routes and controllers.
+Companies
+PK
+company_id
+UUID4
+U, NN
+company_name
+VARCHAR
 
-Your application should include a pipfile file ONLY. This will allow the reviewer to grade your assignment quickly. (Add pipfile.lock to the .gitignore file).
+ProductsCategoriesXref
+FK
+product_id
+UUID4
+FK
+category_id
+UUID4
 
-Routes
-Include the following routes and their actions in your application:
+Categories
+PK
+category_id
+UUID4
+U, NN
+category_name
+VARCHAR
 
-CREATE (each route uses a POST request)
-/product route to create a new product
+Warranties
+PK
+warranty_id
+UUID4
+FK
+product_id
+UUID4
+NN
+warranty_months
+VARCHAR
+As a refresher, CRUD stands for:
 
-READ (each route uses a GET request)
-/products route to return all the products in our list of dictionaries
-/product/active route to return all products that have the active status set to the boolean True.
+CREATE:
+a single record in the companies table
+a single record in the categories table
+a single record in the products table
+a single record in the warranties table
+a single record in the products_categories table
 
-/products/<product_id> route to read one product based on the product_id provided
+READ:
+all records in the companies table
+all records in the categories table
+all records in the products table
+all records in the warranties table
+all active products
+all products with a particular company_id
+a single company record by id
+a single category record by id (and all its associated products)
+a single product record by id (and its single associated warranty and its associated categories)
+a single warranty record by id
 
-UPDATE (each route uses a PUT request)
+UPDATE:
+one or more fields in a record from the companies table
+one or more fields in a record from the categories table
+one or more fields in a record from the products table
+one or more fields in a record from the warranties table
+one or more fields in a record from the productscategoriesxref table
 
-/product/<product_id> route to update one or more key-value pairs in one product.
+DELETE:
+delete a record in the products table based on their id (make sure all associated records in the warranty table and xref table are also deleted)
+delete a record in the categories table based on their id (make sure all associated records in the xref table are also deleted)
+delete a record in the companies table based on their id (make sure all associated records in the products table, and the associated records in the xref table, are also deleted)
+delete a record in the warranties table based on their id (make sure the associated id in the products table is also deleted)
 
-/product/activity/<product_id> route to toggle active status between True and False.
-
-DELETE (each route uses a DELETE request)
-/product/delete route to remove a product from our list of dictionaries.
+to run this project:
+pipenv install
+pipeenv install --dev
+pipenv run start
